@@ -1,20 +1,21 @@
 import { Route, Routes } from "react-router-dom";
-import { StorePage, CartPage } from "./pages/index";
+import { StorePage, CartPage, HomePage } from "./pages/index";
 import { NavBar } from "./components/NavBar";
 import { ProductsProvider } from "./context/ProductsProvider";
 import { CartProvider } from "./context/CartProvider";
 function App() {
   return (
     <>
-        <ProductsProvider>
-          <CartProvider>
-            <NavBar />
-            <Routes>
-              <Route path="/" element={<StorePage />} />
-              <Route path="/cart" element={<CartPage />} />
-            </Routes>
-          </CartProvider>
-        </ProductsProvider>
+      <ProductsProvider>
+        <CartProvider>
+          <NavBar />
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/store" element={<StorePage />}></Route>
+            <Route path="/cart" element={<CartPage />} />
+          </Routes>
+        </CartProvider>
+      </ProductsProvider>
     </>
   );
 }
