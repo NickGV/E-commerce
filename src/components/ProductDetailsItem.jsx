@@ -22,7 +22,7 @@ export const ProductDetailsItem = ({ product }) => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8 bg-card-bg mt-8 rounded-lg shadow">
+    <div className="container mx-auto px-4 pb-8 bg-card-bg mt-8 rounded-lg shadow">
       <div className="flex flex-col md:flex-row gap-8">
         <div className="md:w-1/12">
           {product.images.map((img, index) => (

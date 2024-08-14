@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import { ProductsContext } from "../context/ProductsContext";
 import { ProductDetailsItem } from "../components/ProductDetailsItem";
 import { useContext, useEffect, useState } from "react";
@@ -27,11 +27,29 @@ export const ProductDetailsPage = () => {
     }
   }, [id, products]);
 
+  const goBack = () => {
+    window.history.back();
+  };
+
   if (!product) return <p>Product not found</p>;
 
   return (
     <section>
       <div className="mb-16">
+        <div className="ml-36 pt-4">
+          <NavLink to="/" className="hover:text-orange-500 hover:underline">
+            Home/
+          </NavLink>
+          <NavLink to="/store" className="hover:text-orange-500 hover:underline">
+            Store/
+          </NavLink>
+          <NavLink
+            to={`/product/${product.id}`}
+            className="hover:text-orange-500 hover:underline"
+          >
+            {product.title}
+          </NavLink>
+        </div>
         <ProductDetailsItem product={product} />
       </div>
       <div className="my-8 p-4">
