@@ -5,7 +5,8 @@ import beauty from "../assest/beauty.jpg";
 import furniture from "../assest/furniture.jpg";
 import groceries from "../assest/groceries.jpg";
 import fragances from "../assest/fragances.jpg";
-import { RandomProductCard } from "../components/RandomProductCard";
+import { RandomProductItem } from "../components/RandomProductItem";
+import { NavLink } from "react-router-dom";
 // import electronics from "../assest/electronics.jpg";
 // import fashion from "../assest/fashion.jpg";
 // import food from "../assest/food.jpg";
@@ -23,7 +24,7 @@ export const HomePage = () => {
         <h2 className="text-2xl font-bold mb-3">Some Products</h2>
         <ul className="flex gap-4">
           {randomProducts.map((product) => (
-            <RandomProductCard key={product.id} product={product} />
+            <RandomProductItem key={product.id} product={product} />
           ))}
         </ul>
       </section>
@@ -68,7 +69,8 @@ export const HomePage = () => {
         <h2 className="text-2xl font-bold mb-3">Best rating</h2>
         <ul className="flex gap-4">
           {topRatedProducts.map((product) => (
-            <li
+            <NavLink
+              to={`/product/${product.id}`}
               key={product.id}
               className="relative flex flex-col 2xl:w-1/3 md:w-2/5 2xl bg-card-bg rounded-lg gap-4 p-4 hover:scale-105 transition-transform"
             >
@@ -90,7 +92,7 @@ export const HomePage = () => {
                       {product.description}
                     </p>
                   </div>
-                  <p className="mt-4 text-xl font-bold text-gray-900">
+                  <p className="mt-4 text-xl font-bold text-green-600">
                     ${product.price}
                   </p>
                 </div>
@@ -98,7 +100,7 @@ export const HomePage = () => {
               <div className="absolute top-4 right-4 bg-yellow-400 text-white font-bold rounded-full px-4 py-1 shadow-md">
                 ⭐ {product.rating}
               </div>
-            </li>
+            </NavLink>
           ))}
         </ul>
       </section>

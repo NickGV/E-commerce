@@ -3,6 +3,7 @@ import { StorePage, CartPage, HomePage } from "./pages/index";
 import { NavBar } from "./components/NavBar";
 import { ProductsProvider } from "./context/ProductsProvider";
 import { CartProvider } from "./context/CartProvider";
+import { ProductDetailsPage } from "./pages/ProductDetailsPage";
 function App() {
   return (
     <>
@@ -11,7 +12,8 @@ function App() {
           <NavBar />
           <Routes>
             <Route path="/" element={<HomePage />} />
-            <Route path="/store" element={<StorePage />}></Route>
+            <Route path="/store" element={<StorePage />} />
+            <Route path="/product/:id" element={<ProductDetailsPage/>}/>
             <Route path="/cart" element={<CartPage />} />
           </Routes>
         </CartProvider>

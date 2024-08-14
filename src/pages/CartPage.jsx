@@ -57,7 +57,7 @@ export const CartPage = () => {
                       <tr key={item.id}>
                         <td className="px-6 py-4 whitespace-nowrap flex items-center gap-2">
                           <img
-                            src={item.image}
+                            src={item.images[0]}
                             alt=""
                             className="w-14 rounded-lg"
                           />

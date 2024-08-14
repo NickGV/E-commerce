@@ -7,8 +7,11 @@ export default {
         "black-bg": "#121212",
         "card-bg": "#323232",
       },
+      height: {
+        140: "35rem",
+      },
       borderRadius: {
-        "50": "50%",
+        50: "50%",
       },
     },
   },
