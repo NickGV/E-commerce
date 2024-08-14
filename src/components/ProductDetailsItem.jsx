@@ -3,8 +3,7 @@ import { CartContext } from "../context/CartContext";
 import { StarRating } from "./StarRating";
 
 export const ProductDetailsItem = ({ product }) => {
-  const [added, setAdded] = useState(false);
-  const { addPurchase, removePurchase } = useContext(CartContext);
+  const { addPurchase, removePurchase, shoppingList } = useContext(CartContext);
   const [selectedImage, setSelectedImage] = useState(product.images[0]);
 
   useEffect(() => {
@@ -13,13 +12,16 @@ export const ProductDetailsItem = ({ product }) => {
 
   const clickAdd = (product) => {
     addPurchase(product);
-    setAdded(true);
   };
 
   const clickRemove = (id) => {
     removePurchase(id);
-    setAdded(false);
   };
+
+  const isAdded = shoppingList.map((item) => item.id).includes(product.id);
+
+  console.log(shoppingList);
+  console.log(isAdded);
 
   return (
     <div className="container mx-auto px-4 pb-8 bg-card-bg mt-8 rounded-lg shadow">
@@ -54,7 +56,7 @@ export const ProductDetailsItem = ({ product }) => {
             </p>
             <p className="text-gray-700 mb-4">{product.description}</p>
           </div>
-          {added ? (
+          {isAdded ? (
             <button
               className="w-full p-4 font-semibold bg-red-700 text-white rounded-md"
               onClick={() => clickRemove(product.id)}

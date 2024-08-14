@@ -31,7 +31,6 @@ export const StorePage = () => {
 
   const categories = [...new Set(products.map((product) => product.category))];
   console.log(filteredProducts);
-  // groceries
   return (
     <div className=" text-white p-4">
       <div className="mb-4">

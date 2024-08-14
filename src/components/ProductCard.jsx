@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
+import { CartContext } from "../context/CartContext";
 
 export const ProductCard = ({ product, handleAdd, handleRemove }) => {
-  const [added, setAdded] = useState(false);
-
+  const { shoppingList } = useContext(CartContext);
   const clickAdd = () => {
     handleAdd();
     setAdded(true);
@@ -11,8 +11,9 @@ export const ProductCard = ({ product, handleAdd, handleRemove }) => {
 
   const clickRemove = () => {
     handleRemove();
-    setAdded(false);
   };
+
+  const isAdded = shoppingList.map((item) => item.id).includes(product.id);
 
   return (
     <div className="bg-card-bg rounded-lg overflow-hidden flex flex-col shadow-sm shadow-gray-500 ">
@@ -37,12 +38,14 @@ export const ProductCard = ({ product, handleAdd, handleRemove }) => {
           View Details
         </Link>
         <button
-          onClick={added ? clickRemove : clickAdd}
+          onClick={isAdded ? clickRemove : clickAdd}
           className={`flex-1 text-center py-2 rounded-lg transition duration-300 ${
-            added ? "bg-red-600 hover:bg-red-700" : "bg-black hover:bg-zinc-800"
+            isAdded
+              ? "bg-red-600 hover:bg-red-700"
+              : "bg-black hover:bg-zinc-800"
           }`}
         >
-          {added ? "Remove" : "Add to Cart"}
+          {isAdded ? "Remove" : "Add to Cart"}
         </button>
       </div>
     </div>

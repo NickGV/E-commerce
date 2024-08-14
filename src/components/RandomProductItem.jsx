@@ -3,17 +3,21 @@ import { CartContext } from "../context/CartContext";
 import { NavLink } from "react-router-dom";
 
 export const RandomProductItem = ({ product }) => {
-  const [added, setAdded] = useState(false);
-  const { addPurchase, removePurchase } = useContext(CartContext);
-  const clickAdd = (product) => {
+  const { addPurchase, removePurchase, shoppingList } = useContext(CartContext);
+  const clickAdd = (e, product) => {
+    e.stopPropagation();
+    e.preventDefault();
     addPurchase(product);
-    setAdded(true);
   };
 
-  const clickRemove = (id) => {
+  const clickRemove = (e, id) => {
+    e.stopPropagation();
+    e.preventDefault();
     removePurchase(id);
-    setAdded(false);
   };
+
+  const isAdded = shoppingList.map((item) => item.id).includes(product.id);
+
   return (
     <NavLink
       to={`/product/${product.id}`}
@@ -35,17 +39,17 @@ export const RandomProductItem = ({ product }) => {
           </span>
         </p>
       </div>
-      {added ? (
+      {isAdded ? (
         <button
           className="w-full p-2 bg-red-700 text-white rounded-md mt-3"
-          onClick={() => clickRemove(product.id)}
+          onClick={(e) => clickRemove(e, product.id)}
         >
           Remove from Cart
         </button>
       ) : (
         <button
           className="w-full p-2 bg-black text-white rounded-md mt-3  hover:bg-zinc-800 transition-colors"
-          onClick={() => clickAdd(product)}
+          onClick={(e) => clickAdd(e, product)}
         >
           add to Cart
         </button>
