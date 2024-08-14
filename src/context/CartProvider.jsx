@@ -62,7 +62,7 @@ export const CartProvider = ({ children }) => {
     } else {
       dispatch({
         type: "[CART] Add Purchase",
-        payload: { ...purchase, quantity: 1 },
+        payload: { ...purchase, quantity: 1, price: purchase.price },
       });
     }
   };

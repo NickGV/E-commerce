@@ -1,130 +1,156 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { CartContext } from "../context/CartContext";
 import { NavLink } from "react-router-dom";
 
 export const CartPage = () => {
   const { shoppingList, increaseAmount, decreaseAmount, removePurchase } =
     useContext(CartContext);
+  const [paymentMethod, setPaymentMethod] = useState("Credit Card");
 
-  const total = () => {
-    return shoppingList
-      .reduce((total, item) => total + item.price * item.amount, 0)
-      .toFixed(2);
-  };
+  const subtotal = shoppingList
+    .reduce((total, item) => total + item.price * item.quantity, 0)
+    .toFixed(2);
 
-  const handleImpresion = () => {
-    print();
-  };
+  const shipping = 5.9;
+  const total = (parseFloat(subtotal) + shipping).toFixed(2);
 
   return (
-    <>
-      {shoppingList.length > 0 ? (
-        <div className="overflow-x-auto">
-          <div className="sm:-mx-6 lg:-mx-8">
-            <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-              <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-                <table className="min-w-full divide-y divide-gray-200">
-                  <thead>
-                    <tr>
-                      <th
-                        scope="col"
-                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+    <section className="flex justify-center items-center h-screen w-full">
+      <div className="container flex flex-col md:flex-row gap-8 p-8 text-white">
+        <div className="w-full bg-card-bg p-8 rounded-lg">
+          <h1 className="text-2xl font-bold mb-4">Shopping Cart</h1>
+          {shoppingList.length > 0 ? (
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-gray-700">
+                  <th className="text-left py-2">Product</th>
+                  <th className="text-left py-2">Material</th>
+                  <th className="text-left py-2">Quantity</th>
+                  <th className="text-left py-2">Total Cost</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                {shoppingList.map((item) => (
+                  <tr key={item.id} className="border-b  border-gray-700">
+                    <td className="py-4 flex items-center gap-4">
+                      <img
+                        src={item.images[0]}
+                        alt=""
+                        className="w-16 h-16 object-cover rounded"
+                      />
+                      <div>
+                        <p className="font-semibold">{item.title}</p>
+                        <p className="text-sm text-gray-400">{item.brand}</p>
+                      </div>
+                    </td>
+                    <td>{item.material || "N/A"}</td>
+                    <td>
+                      <div className="flex items-center">
+                        <button
+                          onClick={() => decreaseAmount(item.id)}
+                          className="px-2"
+                        >
+                          -
+                        </button>
+                        <span className="mx-2">{item.quantity}</span>
+                        <button
+                          onClick={() => increaseAmount(item.id)}
+                          className="px-2"
+                        >
+                          +
+                        </button>
+                      </div>
+                    </td>
+                    <td>${(item.price * item.quantity).toFixed(2)}</td>
+                    <td>
+                      <button
+                        onClick={() => removePurchase(item.id)}
+                        className="text-red-500 text-xl hover:scale-105 transition-all"
                       >
-                        NAME
-                      </th>
-                      <th
-                        scope="col"
-                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                      >
-                        PRICE
-                      </th>
-                      <th
-                        scope="col"
-                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                      >
-                        AMOUNT
-                      </th>
-                      <th
-                        scope="col"
-                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                      >
-                        REMOVE
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-gray-200">
-                    {shoppingList.map((item) => (
-                      <tr key={item.id}>
-                        <td className="px-6 py-4 whitespace-nowrap flex items-center gap-2">
-                          <img
-                            src={item.images[0]}
-                            alt=""
-                            className="w-14 rounded-lg"
-                          />
-                          {item.title}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          {item.price}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="flex items-center">
-                            <button
-                              className="mr-1 text-xl text-white px-2 py-1"
-                              onClick={() => decreaseAmount(item.id)}
-                            >
-                              -
-                            </button>
-                            <span className="mx-1">{item.amount}</span>
-                            <button
-                              className="ml-1 text-xl text-white px-2 py-1"
-                              onClick={() => increaseAmount(item.id)}
-                            >
-                              +
-                            </button>
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <button
-                            className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-300"
-                            onClick={() => removePurchase(item.id)}
-                          >
-                            Eliminar
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-                    <tr>
-                      <td className="px-6 py-4" colSpan="3">
-                        <b>TOTAL:</b>
-                      </td>
-                      <td className="px-6 py-4">${total()}</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+                        <i className="fa-solid fa-xmark"></i>
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            <p>
+              Your cart is empty.{" "}
+              <NavLink to="/store" className="text-blue-500">
+                Continue shopping
+              </NavLink>
+            </p>
+          )}
+          <div className="mt-4">
+            <p>Subtotal: ${subtotal}</p>
+            <p>Shipping: ${shipping.toFixed(2)}</p>
+            <p className="font-bold">Total: ${total}</p>
+          </div>
+        </div>
+        <div className="md:w-1/3 p-6 bg-card-bg rounded-lg">
+          <h2 className="text-xl font-bold mb-4">Payment Info</h2>
+          <div className="mb-4">
+            <p className="mb-2">Payment Method</p>
+            <div className="flex gap-4">
+              <button
+                onClick={() => setPaymentMethod("Credit Card")}
+                className={`px-4 py-2 rounded ${
+                  paymentMethod === "Credit Card" ? "bg-zinc-800" : "bg-black"
+                }`}
+              >
+                Credit Card
+              </button>
+              <button
+                onClick={() => setPaymentMethod("PayPal")}
+                className={`px-4 py-2 rounded ${
+                  paymentMethod === "PayPal" ? "bg-zinc-800" : "bg-black"
+                }`}
+              >
+                PayPal
+              </button>
             </div>
           </div>
-
-          <div className="mt-4 text-center">
-            <button
-              className="bg-blue-500 text-white px-4 py-2 rounded-md"
-              onClick={handleImpresion}
-              disabled={shoppingList.length < 1}
-            >
-              Buy
-            </button>
+          <div className="mb-4">
+            <label className="block mb-2">Cardholder Name</label>
+            <input
+              type="text"
+              className="w-full p-2 bg-transparent rounded"
+              placeholder="EcoBuyer"
+            />
           </div>
-        </div>
-      ) : (
-        <div className="flex flex-col items-center justify-center h-screen">
-          <div className="text-center">
-            <h2>There is nothing here yet</h2>
-            <NavLink to="/" className="text-blue-500">
-              Visit the store
-            </NavLink>
+          <div className="mb-4">
+            <label className="block mb-2">Card Number</label>
+            <input
+              type="text"
+              className="w-full p-2 bg-transparent rounded"
+              placeholder="**** **** **** 9876"
+            />
           </div>
+          <div className="flex gap-4 mb-4">
+            <div className="w-1/2">
+              <label className="block mb-2">Expiration Date</label>
+              <input
+                type="text"
+                className="w-full p-2 bg-transparent rounded"
+                placeholder="MM / YYYY"
+              />
+            </div>
+            <div className="w-1/2">
+              <label className="block mb-2">CVV</label>
+              <input
+                type="text"
+                className="w-full p-2 bg-transparent rounded"
+                placeholder="***"
+              />
+            </div>
+          </div>
+          <button className="w-full bg-black hover:bg-zinc-800 text-white py-4 rounded-lg">
+            Confirm Payment ${total}
+          </button>
         </div>
-      )}
-    </>
+      </div>
+    </section>
   );
 };
