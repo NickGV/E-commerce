@@ -3,14 +3,20 @@ import { useContext, useEffect, useState } from "react";
 import { ProductsContext } from "../context/ProductsContext";
 import { ProductCard } from "../components/ProductCard";
 import { CartContext } from "../context/CartContext";
+import { NavLink, useParams, useNavigate } from "react-router-dom";
 
 export const StorePage = () => {
-  const { products } = useContext(ProductsContext);
+  const {
+    products,
+    categoriesList,
+    filteredProducts,
+    fetchProductsByCategory,
+  } = useContext(ProductsContext);
   const { addPurchase, removePurchase } = useContext(CartContext);
-  const [filteredProducts, setFilteredProducts] = useState([]);
-  const [category, setCategory] = useState("All Categories");
-  const [priceRange, setPriceRange] = useState(2000);
-  const [sortBy, setSortBy] = useState("Featured");
+  const [filter, setfilter] = useState("");
+
+  const { category } = useParams();
+  const navigate = useNavigate();
 
   const handleAdd = (product) => {
     addPurchase(product);
@@ -21,16 +27,19 @@ export const StorePage = () => {
   };
 
   const handleTagFilter = (category) => {
-    setCategory("");
-    const filteredPost = products.filter((post) =>
-      post.category.includes(category)
-    );
-    setFilteredProducts(filteredPost);
-    setCategory(category);
+    setfilter("");
+    fetchProductsByCategory(category);
+    navigate(`/store/${category}`);
+    setfilter(category);
   };
 
-  const categories = [...new Set(products.map((product) => product.category))];
+  useEffect(() => {
+    setfilter(category || "all");
+    fetchProductsByCategory(category || "all");
+  }, [category]);
+
   console.log(filteredProducts);
+
   return (
     <div className=" text-white p-4">
       <div className="mb-4">
@@ -42,43 +51,24 @@ export const StorePage = () => {
           value={category}
           onChange={(e) => handleTagFilter(e.target.value)}
         >
-          <option>All Categories</option>
-          {categories.map((category) => (
-            <option key={category} value={category}>
-              {category}
-            </option>
-          ))}
+          <option value={"all"}>All Categories</option>
+          {categoriesList &&
+            categoriesList.map((category) => (
+              <option key={category} value={category}>
+                {category}
+              </option>
+            ))}
         </select>
-        <div className="flex items-center">
-          <span className="mr-2">Price:</span>
-          <input
-            type="range"
-            min="0"
-            max="2000"
-            value={priceRange}
-            onChange={(e) => setPriceRange(e.target.value)}
-            className="w-32"
-          />
-        </div>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {category === "All Categories"
-          ? products.map((product) => (
-              <ProductCard
-                key={product.id}
-                product={product}
-                handleAdd={() => handleAdd(product)}
-                handleRemove={() => handleRemove(product.id)}
-              />
-            ))
-          : filteredProducts.map((product) => (
-              <ProductCard
-                key={product.id}
-                product={product}
-                handleAdd={() => handleAdd(product)}
-                handleRemove={() => handleRemove(product.id)}
-              />
-            ))}
+        {(filter === "all" ? products : filteredProducts).map((product) => (
+          <ProductCard
+            key={product.id}
+            product={product}
+            handleAdd={() => handleAdd(product)}
+            handleRemove={() => handleRemove(product.id)}
+          />
+        ))}
       </div>
     </div>
   );

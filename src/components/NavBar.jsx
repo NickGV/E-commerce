@@ -17,7 +17,7 @@ export const NavBar = () => {
         </li>
         <li>
           <NavLink
-            to="/store"
+            to="/store/all"
             className="text-2xl hover:text-gray-400 transition-colors"
           >
             Store

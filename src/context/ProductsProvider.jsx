@@ -2,8 +2,10 @@ import { useEffect, useState } from "react";
 import { ProductsContext } from "./ProductsContext";
 
 export const ProductsProvider = ({ children }) => {
- 
   const [products, setproducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [categoriesList, setCategoriesList] = useState([]);
   const [randomProducts, setRandomProducts] = useState([]);
   const [topRatedProducts, setTopRatedProducts] = useState([]);
 
@@ -23,13 +25,46 @@ export const ProductsProvider = ({ children }) => {
     setTopRatedProducts(topRated);
   };
 
+  const fetchCategoriesList = async () => {
+    const response = await fetch(
+      "https://dummyjson.com/products/category-list"
+    );
+    const data = await response.json();
+    setCategoriesList(data);
+  };
+
+  const fetchCategories = async () => {
+    const response = await fetch("https://dummyjson.com/products/categories");
+    const data = await response.json();
+    setCategories(data);
+  };
+
   useEffect(() => {
     fetchproducts();
+    fetchCategories();
+    fetchCategoriesList();
   }, []);
+
+  const fetchProductsByCategory = async (category) => {
+    const response = await fetch(
+      `https://dummyjson.com/products/category/${category}`
+    );
+    const data = await response.json();
+    const products = data.products;
+    setFilteredProducts(products);
+  };
 
   return (
     <ProductsContext.Provider
-      value={{ products,randomProducts, topRatedProducts }}
+      value={{
+        products,
+        filteredProducts,
+        categories,
+        categoriesList,
+        randomProducts,
+        topRatedProducts,
+        fetchProductsByCategory,
+      }}
     >
       {children}
     </ProductsContext.Provider>

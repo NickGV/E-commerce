@@ -1,22 +1,65 @@
 import { useContext, useEffect, useState } from "react";
 import { ProductsContext } from "../context/ProductsContext";
 import { CartContext } from "../context/CartContext";
-import beauty from "../assest/beauty.jpg";
-import furniture from "../assest/furniture.jpg";
-import groceries from "../assest/groceries.jpg";
-import fragances from "../assest/fragances.jpg";
+
 import { RandomProductItem } from "../components/RandomProductItem";
 import { NavLink } from "react-router-dom";
-// import electronics from "../assest/electronics.jpg";
-// import fashion from "../assest/fashion.jpg";
-// import food from "../assest/food.jpg";
-// import health from "../assest/health.jpg";
-// import home from "../assest/home.jpg";
+import beauty from "../assest/beauty.webp";
+import fragrances from "../assest/fragrances.webp";
+import furniture from "../assest/furniture.webp";
+import groceries from "../assest/groceries.webp";
+import homeDecoration from "../assest/home-decoration.webp";
+import kitchenAccessories from "../assest/kitchen-accessories.jpg";
+import laptops from "../assest/laptops.webp";
+import mensShirts from "../assest/mens-shirts.webp";
+import mensShoes from "../assest/mens-shoes.jpg";
+import mensWatches from "../assest/mens-watches.jpg";
+import mobileAccessories from "../assest/mobile-accessories.webp";
+import motorcycle from "../assest/motorcycle.jpg";
+import skinCare from "../assest/skin-care.webp";
+import smartphones from "../assest/smartphones.jpg";
+import sportsAccessories from "../assest/sports-accessories.jpg";
+import sunglasses from "../assest/sunglasses.jpg";
+import tablets from "../assest/tablets.webp";
+import tops from "../assest/tops.jpg";
+import vehicle from "../assest/vehicle.webp";
+import womensBags from "../assest/womens-bags.jpg";
+import womensDresses from "../assest/womens-dresses.webp";
+import womensJewellery from "../assest/womens-jewellery.webp";
+import womensShoes from "../assest/womens-shoes.jpg";
+import womensWatches from "../assest/womens-watches.webp";
 
+const categoryImages = {
+  beauty,
+  fragrances,
+  furniture,
+  groceries,
+  "home-decoration": homeDecoration,
+  "kitchen-accessories": kitchenAccessories,
+  laptops,
+  "mens-shirts": mensShirts,
+  "mens-shoes": mensShoes,
+  "mens-watches": mensWatches,
+  "mobile-accessories": mobileAccessories,
+  motorcycle,
+  "skin-care": skinCare,
+  smartphones,
+  "sports-accessories": sportsAccessories,
+  sunglasses,
+  tablets,
+  tops,
+  vehicle,
+  "womens-bags": womensBags,
+  "womens-dresses": womensDresses,
+  "womens-jewellery": womensJewellery,
+  "womens-shoes": womensShoes,
+  "womens-watches": womensWatches,
+};
 export const HomePage = () => {
-  const { products, randomProducts, topRatedProducts } =
+  const { randomProducts, topRatedProducts, categories } =
     useContext(ProductsContext);
-  const { addPurchase, removePurchase } = useContext(CartContext);
+
+  console.log(categories);
 
   return (
     <div className="p-4 flex flex-col gap-4">
@@ -30,39 +73,21 @@ export const HomePage = () => {
       </section>
       <section>
         <h2 className="text-2xl font-bold mb-3">Categories</h2>
-        <ul className="flex gap-4">
-          <li className="flex flex-col items-center w-40 p-4 bg-card-bg rounded-lg hover:scale-110 hover:cursor-pointer transition-all">
-            <img
-              src={beauty}
-              alt="beauty"
-              className="rounded-50 max-w-28 h-28"
-            />
-            <h3 className="text-xl font-semibold">Beauty</h3>
-          </li>
-          <li className="flex flex-col items-center w-40 p-4 bg-card-bg rounded-lg hover:scale-110 hover:cursor-pointer transition-all">
-            <img
-              src={fragances}
-              alt="fragances"
-              className="rounded-50 max-w-28 h-28"
-            />
-            <h3 className="text-xl font-semibold">Fragances</h3>
-          </li>
-          <li className="flex flex-col items-center w-40 p-4 bg-card-bg rounded-lg hover:scale-110 hover:cursor-pointer transition-all">
-            <img
-              src={groceries}
-              alt="groceries"
-              className="rounded-50 max-w-28 h-28"
-            />
-            <h3 className="text-xl font-semibold">Groceries</h3>
-          </li>
-          <li className="flex flex-col items-center w-40 p-4 bg-card-bg rounded-lg hover:scale-110 hover:cursor-pointer transition-all">
-            <img
-              src={furniture}
-              alt="furniture"
-              className="rounded-50 max-w-28 h-28"
-            />
-            <h3 className="text-xl font-semibold">Furnitures</h3>
-          </li>
+        <ul className="grid grid-flow-col gap-4 overflow-x-auto max-width-full">
+          {categories.map((category) => (
+            <NavLink
+              key={category.name}
+              to={`/store/${category.slug}`}
+              className="flex flex-col items-center w-56 p-4 bg-card-bg rounded-lg hover:scale-110 hover:cursor-pointer transition-all"
+            >
+              <img
+                src={categoryImages[category.slug]}
+                alt={category.slug}
+                className="rounded-50 max-w-28 h-28"
+              />
+              <h3 className="text-xl font-semibold">{category.name}</h3>
+            </NavLink>
+          ))}
         </ul>
       </section>
       <section>
