@@ -80,7 +80,7 @@ export const CartPage = () => {
           ) : (
             <p>
               Your cart is empty.{" "}
-              <NavLink to="/store" className="text-blue-500">
+              <NavLink to="/store/all" className="text-blue-500">
                 Continue shopping
               </NavLink>
             </p>
