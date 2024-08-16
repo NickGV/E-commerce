@@ -1,6 +1,6 @@
 # E-commerce Project
 
-### Visit the website here: [Visit](https://shopping-cart-nickgv.netlify.app)
+### Visit the website here: [Visit](https://e-commerce-nickgv.netlify.app)
 
 This is a simple E-commerce project for practice React, which contains a home page with some products, the categories and the most rated products also a list of products where you can add to cart or remove from cart, and a cart with the products that you choose, in this cart you can also increase de amount of the products, you can remove it from the cart and pay.
 
