@@ -65,7 +65,7 @@ export const HomePage = () => {
     <div className="p-4 flex flex-col gap-4">
       <section>
         <h2 className="text-2xl font-bold mb-3">Some Products</h2>
-        <ul className="flex gap-4">
+        <ul className="md:flex grid grid-flow-col gap-4 overflow-x-auto w-full">
           {randomProducts.map((product) => (
             <RandomProductItem key={product.id} product={product} />
           ))}
@@ -78,14 +78,16 @@ export const HomePage = () => {
             <NavLink
               key={category.name}
               to={`/store/${category.slug}`}
-              className="flex flex-col items-center w-56 p-4 bg-card-bg rounded-lg hover:scale-110 hover:cursor-pointer transition-all"
+              className="flex flex-col items-center justify-center md:w-56 w-36 p-4 bg-card-bg rounded-lg hover:scale-110 hover:cursor-pointern transition-all"
             >
               <img
                 src={categoryImages[category.slug]}
                 alt={category.slug}
-                className="rounded-50 max-w-28 h-28"
+                className="rounded-50 md:max-w-28 md:h-28 max-w-16 h-16"
               />
-              <h3 className="text-xl font-semibold">{category.name}</h3>
+              <h3 className="md:text-xl text-lg font-semibold">
+                {category.name}
+              </h3>
             </NavLink>
           ))}
         </ul>
@@ -97,10 +99,10 @@ export const HomePage = () => {
             <NavLink
               to={`/product/${product.id}`}
               key={product.id}
-              className="relative flex flex-col 2xl:w-1/3 md:w-2/5 2xl bg-card-bg rounded-lg gap-4 p-4 hover:scale-105 transition-transform"
+              className="relative flex flex-col 2xl:w-1/3 md:w-2/5 w-1/2 bg-card-bg rounded-lg gap-4 p-4 hover:scale-105 transition-transform"
             >
-              <div className="grid grid-cols-2 gap-4">
-                <div className="w-64 h-64">
+              <div className="grid grid-cols-1 md:grid-cols-2 md:gap-4">
+                <div className="md:w-64 md:h-64">
                   <img
                     src={product.images[0]}
                     alt={product.title}
@@ -113,7 +115,7 @@ export const HomePage = () => {
                     <p className="font-semibold text-lg mt-10">
                       {product.title}
                     </p>
-                    <p className="text-sm mt-2 text-gray-400">
+                    <p className="text-sm mt-2 md:block hidden text-gray-400">
                       {product.description}
                     </p>
                   </div>

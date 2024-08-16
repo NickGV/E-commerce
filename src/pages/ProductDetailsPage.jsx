@@ -36,7 +36,7 @@ export const ProductDetailsPage = () => {
   return (
     <section>
       <div className="mb-16">
-        <div className="ml-36 pt-4">
+        <div className="md:ml-36 ml-4 pt-4">
           <NavLink to="/" className="hover:text-orange-500 hover:underline">
             Home/
           </NavLink>

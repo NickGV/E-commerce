@@ -25,8 +25,8 @@ export const ProductDetailsItem = ({ product }) => {
 
   return (
     <div className="container mx-auto px-4 pb-8 bg-card-bg mt-8 rounded-lg shadow">
-      <div className="flex flex-col md:flex-row gap-8">
-        <div className="md:w-1/12">
+      <div className="flex flex-col md:flex-row  md:gap-8">
+        <div className="flex md:flex-col md:w-1/12 p-4">
           {product.images.map((img, index) => (
             <img
               key={index}
@@ -49,12 +49,11 @@ export const ProductDetailsItem = ({ product }) => {
             <h1 className="text-3xl font-bold mb-2">{product.title}</h1>
             <div className="flex items-center mb-2">
               <StarRating rating={product.rating} />
-              <span className="ml-2 text-gray-600">({product.rating})</span>
             </div>
             <p className="text-2xl font-bold text-green-600 mb-4">
               ${product.price.toFixed(2)}
             </p>
-            <p className="text-gray-700 mb-4">{product.description}</p>
+            <p className=" mb-4">{product.description}</p>
           </div>
           {isAdded ? (
             <button

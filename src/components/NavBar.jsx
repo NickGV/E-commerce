@@ -7,7 +7,7 @@ export const NavBar = () => {
   const { shoppingList } = useContext(CartContext);
 
   return (
-    <nav className="p-2 bg-card-bg">
+    <nav className="fixed top-0 left-0 shadow-sm z-10 shadow-white right-0 p-2 bg-card-bg">
       <ul className="flex items-center justify-between">
         <li className="text-2xl text-bol">
           <NavLink to="/" className="flex items-center gap-2">
