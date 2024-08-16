@@ -1,4 +1,4 @@
-# Shopping Cart Project
+# E-commerce Project
 
 ### Visit the website here: [Visit](https://shopping-cart-nickgv.netlify.app)
 
